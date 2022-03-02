@@ -480,12 +480,12 @@ which is used in the file names of the archive files.
 
 Channel type | Letter
 -------------|-------
-GRAYSCALE    | g
+GRAYSCALE    | x
 RED          | r
 GREEN        | g
 BLUE         | b
 ALPHA        | a
-BUMP         | B
+BUMP         | X
 NORMAL_RED   | R
 NORMAL_GREEN | G
 NORMAL_BLUE  | B
