@@ -327,7 +327,8 @@ The metadata section stores information about the actual data:
 §2.3  Data
 ----------
 
-The data sections stores the actual image data, encapsulated inside a BZip2 container.
+The data sections stores the actual image data, encapsulated inside a BZip2 compressed
+TAR container.
 
 
 §3  Header Section
@@ -454,9 +455,11 @@ must all be a 0.
 ================
 
 The data section
-consists of the raw content of a BZip2 archive file
+consists of the raw content of a BZip2 compressed
 (MIME Type: application/x-bzip2;
-https://sourceware.org/bzip2/index.html).
+https://sourceware.org/bzip2/index.html)
+TAR archive file
+(MIME Type: application/x-tar).
 
 This archive file consists of multiple files, which each store one channel of one frame.
 
