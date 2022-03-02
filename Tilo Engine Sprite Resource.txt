@@ -303,7 +303,7 @@ or animations and optional bump maps, normal maps or parallax maps.
 
 The file name of a TESR file should end with ".tesr" (without quotes).
 
-A TESR file is encoded using big endians.
+A TESR file is encoded using big endian.
 
 A TESR file is made up of 3 different sections,
 which are stored in a continuous stream of bytes, without any slack space:
