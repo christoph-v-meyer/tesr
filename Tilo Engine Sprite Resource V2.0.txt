@@ -536,10 +536,10 @@ BUMP               | X      | 05
 NORMAL_RED         | R      | 07
 NORMAL_GREEN       | G      | 08
 NORMAL_BLUE        | B      | 09
-SPECULAR_GRAYSCALE | s      | 0a
-SPECULAR_RED       | d      | 0b
-SPECULAR_GREEN     | f      | 0c
-SPECULAR_BLUE      | h      | 0d
+SPECULAR           | s      | 0a
+SPECULAR_TINT      | d      | 0b
+ROUGHNESS          | f      | 0c
+METALLIC           | h      | 0d
 EMISSION_GRAYSCALE | e      | 0e
 EMISSION_RED       | z      | 0f
 EMISSION_GREEN     | u      | 10
