@@ -1,5 +1,5 @@
 ================================
-TILO ENGINE SPRITE RESOURCE V1.0
+TILO ENGINE SPRITE RESOURCE V2.0
 ================================
 
 Author: Christoph Meyer (christoph.meyer.2006@gmail.com)
@@ -356,7 +356,7 @@ stores the version of the file format.
 It consists of two bytes, each of them interpreted as an unsigned 8-bit integer.
 
 The first byte must be (in hexadecimal notation):
-01
+02
 The second byte must be (in hexadecimal notation):
 00
 
@@ -393,64 +393,48 @@ and only the first frame is used.
 
 The fifth part of the metadata section
 stores information about the channels that are used in the image or animation.
-It consists of a single byte, which is interpreted as follows:
 
-§4.5.1  MSB
-The most significant bit
-determines if the image or animation is colored or grayscale.
-If it is a 0, each frame must have a GRAYSCALE channel.
-If it is a 1, each frame must have a RED channel, a GREEN channel and a BLUE channel.
+It consists of at least 2 bytes,
+which are stored in a continuous stream of bytes, without any slack space:
+* Number of channels
+* Channel 1 information
+[...]
 
-§4.5.2  Second MSB
-The second most significant bit
-determines if the image or animation uses a channel to store transparancy information.
-If it is a 0, each frame must not have an ALPHA channel.
-If it is a 1, each frame must have an ALPHA channel.
+§4.5.1  First byte
+The first byte
+is interpreted as an unsigned 8-bit integer
+and stores the number of channels used.
+It must be greater than 0.
 
-§4.5.3  Third MSB, fourth MSB and fifth MSB
-The third most significant bit,
-the fourth most significant bit
-and the fifth most significant bit
-determine which type of 3D mapping the image or animation uses.
+§4.5.2  Following bytes
+After the first byte
+follow at least as many bytes as there are channels.
 
-The third most significant bit must be a 0.
+Information about one distinct channel
+is stored in one byte,
+except when this byte is (in hexadecimal notation)
+ff
+, then another byte dedicated to that channel follows.
 
-If the fourth most significant bit is a 0
-and the fifth most significant bit is a 0,
-each frame must not have a BUMP channel
-or a NORMAL_RED channel
-or a NORMAL_GREEN channel
-or a NORMAL_BLUE channel.
+§4.5.2.1  First info byte
+The first byte of the distinct channel information
+is interpreted as an unsigned 8-bit integer.
+Each channel type has a number.
 
-If the fourth most significant bit is a 0
-and the fifth most significant bit is a 1,
-each frame must have a BUMP channel,
- which can be interpreted as bump map data,
-and must not have a NORMAL_RED channel
-or a NORMAL_GREEN channel
-or a NORMAL_BLUE channel.
+[See §6.1]
 
-If the fourth most significant bit is a 1
-and the fifth most significant bit is a 0,
-each frame must not have a BUMP channel
-and must have a NORMAL_RED channel
-and a NORMAL_GREEN channel
-and a NORMAL_BLUE channel,
-which can be interpreted as normal map data.
+A channel of the type this number corresponds to
+must be present in the image or animation.
 
-If the fourth most significant bit is a 1
-and the fifth most significant bit is a 1,
-each frame must not have a BUMP channel
-and must have a NORMAL_RED channel
-and a NORMAL_GREEN channel
-and a NORMAL_BLUE channel,
-which can be interpreted as parallax map data.
+§4.5.2.2  Second info byte
+The second byte of the distinct channel information
+is interpreted as an unsigned 8-bit integer.
+It must not be present
+if the first info byte does not correlate to the channel type
+CUSTOM
+.
 
-§4.5.4  Sixth MSB, seventh MSB and eighth MSB
-The sixth most significant bit,
-the seventh most significant bit
-and the eighth most significant bit
-must all be a 0.
+It specifies the ID of a custom channel.
 
 
 §5  Data section
@@ -474,48 +458,44 @@ Each file name starts with one letter describing the channel type
 followed by a number in hexadecimal notation describing the frame number.
 
 §5.1.1  Channel types
-There are nine different channel types.
+There are 19 different native channel types.
 Each channel type has one letter associated with it
 which is used in the file names of the archive files.
 
-Channel type | Letter
--------------|-------
-GRAYSCALE    | x
-RED          | r
-GREEN        | g
-BLUE         | b
-ALPHA        | a
-BUMP         | X
-NORMAL_RED   | R
-NORMAL_GREEN | G
-NORMAL_BLUE  | B
+[See §6.1]
+
+The file name of each file
+must begin with a channel letter,
+which corresponding channel type
+must be specified
+in the channel information part
+of the metadata section.
+
+If the channel type the channel letter corresponds to is
+CUSTOM
+and the ID of that channel is smaller than (in hexadecimal notation)
+10
+, the channel letter is followed by a
+0
+and the ID of that channel in lowercase hexadecimal notation. [See §6.2]
+
+If the channel type the channel letter corresponds to is
+CUSTOM
+and the ID of that channel is greater than or equals (in hexadecimal notation)
+10
+, the channel letter is followed by
+the ID of that channel in lowercase hexadecimal notation. [See §6.2]
 
 §5.1.2  Frame number
 The frame number
-is stored in lowercase hexadecimal notation without leading zeros.
+is stored in lowercase hexadecimal notation without leading zeros
+directly after the channel type.
 
 The first frame has the frame number 0.
 The frame number of a frame that is not the first frame
 is one higher than the frame number of the previous frame.
 
-Decimal | Hexadecimal digit
---------|------------------
-0       | 0
-1       | 1
-2       | 2
-3       | 3
-4       | 4
-5       | 5
-6       | 6
-7       | 7
-8       | 8
-9       | 9
-10      | a
-11      | b
-12      | c
-13      | d
-14      | e
-15      | f
+[See §6.2]
 
 §5.2  File contents
 -------------------
@@ -537,3 +517,54 @@ in a data file can be determined by using the following formula:
 
 FOR_ALL x, y, w, h ELEMENT_OF NATURAL_NUMBERS_WITH_ZERO AND w > 0 AND h > 0 AND x < w AND y < h:
 pos(x, y, w) = y * w + x
+
+
+§6  Tables
+==========
+
+§6.1  Channel types
+-------------------
+
+Channel type       | Letter | Number (in hexadecimal notation)
+-------------------|--------|---------------------------------
+GRAYSCALE          | x      | 00
+RED                | r      | 01
+GREEN              | g      | 02
+BLUE               | b      | 03
+ALPHA              | a      | 04
+BUMP               | X      | 05
+NORMAL_RED         | R      | 07
+NORMAL_GREEN       | G      | 08
+NORMAL_BLUE        | B      | 09
+SPECULAR_GRAYSCALE | s      | 0a
+SPECULAR_RED       | d      | 0b
+SPECULAR_GREEN     | f      | 0c
+SPECULAR_BLUE      | h      | 0d
+EMISSION_GRAYSCALE | e      | 0e
+EMISSION_RED       | z      | 0f
+EMISSION_GREEN     | u      | 10
+EMISSION_BLUE      | i      | 11
+TRANSPARENCY       | t      | 12
+CUSTOM             | c      | ff
+
+§6.2  Hexadecimal notation
+--------------------------
+
+Decimal | Hexadecimal digit
+--------|------------------
+0       | 0
+1       | 1
+2       | 2
+3       | 3
+4       | 4
+5       | 5
+6       | 6
+7       | 7
+8       | 8
+9       | 9
+10      | a
+11      | b
+12      | c
+13      | d
+14      | e
+15      | f
