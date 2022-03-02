@@ -461,6 +461,8 @@ https://sourceware.org/bzip2/index.html)
 TAR archive file
 (MIME Type: application/x-tar).
 
+The BZip2 container contains a TAR archive file called "DAT" (without quoted).
+
 This archive file consists of multiple files, which each store one channel of one frame.
 
 §5.1  Naming convention
