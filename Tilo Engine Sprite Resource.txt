@@ -375,7 +375,7 @@ It consists of four bytes, which are interpreted as an unsigned 32-bit integer.
 
 The fourth part of the metadata section
 stores the frame rate of the animation in frames per second.
-It consists of four bytes, which are interpreted as an IEEE 754 floating point number.
+It consists of four bytes, which are interpreted as an IEEE 754 32-bit floating point number.
 The frame rate must always be a positive number or zero.
 The frame rate must not be positive infinity.
 
