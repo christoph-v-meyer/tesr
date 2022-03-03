@@ -394,9 +394,11 @@ and only the first frame is used.
 The fifth part of the metadata section
 stores information about the channels that are used in the image or animation.
 
-It consists of at least 2 bytes,
+It consists of at least 3 bytes,
 which are stored in a continuous stream of bytes, without any slack space:
 * Number of channels
+* Bit depth information
+[...]
 * Channel 1 information
 [...]
 
@@ -406,8 +408,19 @@ is interpreted as an unsigned 8-bit integer
 and stores the number of channels used.
 It must be greater than 0.
 
-§4.5.2  Following bytes
+§4.5.2  Bit depth information
 After the first byte
+follow as many bytes as required to assign
+one bit to every channel.
+
+These bits are stored in the same sequence as
+the channel information bytes. [See §4.5.3]
+
+If a bit is 0, the corresponding channel uses a bit depth of 8 bits.
+If a bit is 1, the corresponding channel uses a bit depth of 16 bits.
+
+§4.5.3  Following bytes
+After the bit depth information byte(s)
 follow at least as many bytes as there are channels.
 
 Information about one distinct channel
@@ -416,7 +429,7 @@ except when this byte is (in hexadecimal notation)
 ff
 , then another byte dedicated to that channel follows.
 
-§4.5.2.1  First info byte
+§4.5.3.1  First info byte
 The first byte of the distinct channel information
 is interpreted as an unsigned 8-bit integer.
 Each channel type has a number.
@@ -426,7 +439,7 @@ Each channel type has a number.
 A channel of the type this number corresponds to
 must be present in the image or animation.
 
-§4.5.2.2  Second info byte
+§4.5.3.2  Second info byte
 The second byte of the distinct channel information
 is interpreted as an unsigned 8-bit integer.
 It must not be present
@@ -501,22 +514,44 @@ is one higher than the frame number of the previous frame.
 
 The image data
 is stored as a stream of bytes.
-Each byte stands for one pixel
-and is interpreted as an unsigned 8-bit integer.
+Each one or two bytes,
+depending on the bit depth,
+stands for one pixel
+and is interpreted as an unsigned 8-bit integer,
+except at the beginning of a new image line,
+where an extra byte is inserted,
+which is also interpreted as an unsigned 8-bit integer
+and is used to mark the interpretation mode
+of the following row.
 
-The position in bytes pos,
-starting at 0,
-of a pixel with the coordinates (x|y),
-where the top left pixel has the coordinates (0|0)
-and the x coordinate is getting higher towards the right
-and the y coordinate is getting higher towards the bottom of the image,
-in an image with a width of w pixels
-and a height of h pixels
-in a data file can be determined by using the following formula:
+[See §6.3]
 
-FOR_ALL x, y, w, h ELEMENT_OF NATURAL_NUMBERS_WITH_ZERO AND w > 0 AND h > 0 AND x < w AND y < h:
-pos(x, y, w) = y * w + x
+Each pixel has a raw value r,
+that is used to calculate the actual value v,
+depending on the interpretation mode,
+and a bit depth d.
 
+If the interpretation mode is LITERAL,
+the following formula applies:
+v(r) = r
+
+If the interpretation mode is LEFT,
+the following formula applies
+(with vl being the value v of the pixel to the left,
+or 0, if there is no pixel to the left):
+v(r, vl) = (r + rl) mod d
+
+If the interpretation mode is RIGHT,
+the following formula applies
+(with vr being the value v of the pixel to the right,
+or 0, if there is no pixel to the right):
+v(r, vr) = (r + vr) mod d
+
+If the interpretation mode is UP,
+the following formula applies
+(with vu being the value v of the pixel to the top,
+or 0, if there is no pixel to the top):
+v(r, vu) = (r + vu) mod d
 
 §6  Tables
 ==========
@@ -567,3 +602,13 @@ Decimal | Hexadecimal digit
 13      | d
 14      | e
 15      | f
+
+§6.3  Interpretation mode
+-------------------------
+
+Interpretation mode | Code (in hexadecimal notation)
+--------------------|-------------------------------
+LITERAL             | 00
+LEFT                | 01
+RIGHT               | 02
+UP                  | 03
