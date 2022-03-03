@@ -552,7 +552,7 @@ the following formula applies
 or 0, if there is no pixel to the right):
 v(r, vr) = (r + vr) mod d
 
-If the interpretation mode is UP,
+If the interpretation mode is TOP,
 the following formula applies
 (with vu being the value v of the pixel to the top,
 or 0, if there is no pixel to the top):
@@ -616,4 +616,4 @@ Interpretation mode | Code (in hexadecimal notation)
 LITERAL             | 00
 LEFT                | 01
 RIGHT               | 02
-UP                  | 03
+TOP                 | 03
