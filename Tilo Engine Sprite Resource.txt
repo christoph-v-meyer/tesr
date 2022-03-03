@@ -459,14 +459,14 @@ consists of the raw content of a gzip compressed
 TAR archive file
 (MIME Type: application/x-tar).
 
-The BZip2 container contains a TAR archive file called "DAT" (without quoted).
+The gzip container contains a TAR archive file called "DAT" (without quoted).
 
 This archive file consists of multiple files, which each store one channel of one frame.
 
 §5.1  Naming convention
 -----------------------
 All files of the archive follow a specific naming convention:
-Each file name starts with one letter describing the channel type
+Each file name starts with one letter describing the channel type,
 followed by a number in hexadecimal notation describing the frame number.
 
 §5.1.1  Channel types
