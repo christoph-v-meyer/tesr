@@ -1,5 +1,5 @@
 ================================
-TILO ENGINE SPRITE RESOURCE V2.0
+TILO ENGINE SPRITE RESOURCE V1.0
 ================================
 
 Author: Christoph Meyer (christoph.meyer.2006@gmail.com)
@@ -356,7 +356,7 @@ stores the version of the file format.
 It consists of two bytes, each of them interpreted as an unsigned 8-bit integer.
 
 The first byte must be (in hexadecimal notation):
-02
+01
 The second byte must be (in hexadecimal notation):
 00
 
