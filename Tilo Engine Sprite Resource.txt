@@ -617,3 +617,31 @@ LITERAL             | 00
 LEFT                | 01
 RIGHT               | 02
 TOP                 | 03
+
+
+§7  Diagram
+===========
+
+TESR file:
+0x54 0x45 0x53 0x52     Magic number
+0x01 0x00               Version
+W    H                  Dimensions
+FR                      Frame rate
+#C                      Channel count
+BitD [..]               Bit depth
+ChIn [..]               Channel info
+gzip                    Compressed container
+
+gzip container:
+DAT                     tar container
+
+tar container (example):
+r0                      Frame 0     RED
+g0                      Frame 0     GREEN
+b0                      Frame 0     BLUE
+[...]                   Frame 0     [...]
+r1                      Frame 1     RED
+g1                      Frame 1     GREEN
+b1                      Frame 1     BLUE
+[...]                   Frame 1     [...]
+[...]                   Frame [...] [...]
