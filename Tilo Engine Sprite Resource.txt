@@ -299,7 +299,7 @@ EUPL version.
 ============
 
 The Tilo Engine Sprite Resource file format (TESR) can be used to store images
-or animations and optional bump maps, normal maps or parallax maps.
+or animations and additional shader data, e.g. normal maps.
 
 The file name of a TESR file should end with ".tesr" (without quotes).
 
