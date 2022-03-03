@@ -329,7 +329,7 @@ The metadata section stores information about the actual data:
 §2.3  Data
 ----------
 
-The data sections stores the actual image data, encapsulated inside a BZip2 compressed
+The data sections stores the actual image data, encapsulated inside a gzip compressed
 TAR container.
 
 
@@ -441,9 +441,8 @@ It specifies the ID of a custom channel.
 ================
 
 The data section
-consists of the raw content of a BZip2 compressed
-(MIME Type: application/x-bzip2;
-https://sourceware.org/bzip2/index.html)
+consists of the raw content of a gzip compressed
+(MIME Type: application/gzip)
 TAR archive file
 (MIME Type: application/x-tar).
 
