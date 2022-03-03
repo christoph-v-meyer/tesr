@@ -514,6 +514,11 @@ is one higher than the frame number of the previous frame.
 
 The image data
 is stored as a stream of bytes.
+
+Pixels are stored line by line,
+from top to bottom,
+where each line is stored from left to right.
+
 Each one or two bytes,
 depending on the bit depth,
 stands for one pixel
@@ -561,24 +566,24 @@ v(r, vu) = (r + vu) mod d
 
 Channel type       | Letter | Number (in hexadecimal notation)
 -------------------|--------|---------------------------------
-GRAYSCALE          | x      | 00
+GRAYSCALE          | G      | 00
 RED                | r      | 01
 GREEN              | g      | 02
 BLUE               | b      | 03
 ALPHA              | a      | 04
-BUMP               | X      | 05
-NORMAL_RED         | R      | 07
-NORMAL_GREEN       | G      | 08
-NORMAL_BLUE        | B      | 09
-SPECULAR_GRAYSCALE | s      | 0a
-SPECULAR_RED       | d      | 0b
-SPECULAR_GREEN     | f      | 0c
-SPECULAR_BLUE      | h      | 0d
-EMISSION_GRAYSCALE | e      | 0e
-EMISSION_RED       | z      | 0f
-EMISSION_GREEN     | u      | 10
-EMISSION_BLUE      | i      | 11
-TRANSPARENCY       | t      | 12
+BUMP               | B      | 05
+NORMAL_X           | x      | 07
+NORMAL_Y           | y      | 08
+NORMAL_Z           | z      | 09
+SPECULAR_GRAYSCALE | S      | 0a
+SPECULAR_RED       | s      | 0b
+SPECULAR_GREEN     | d      | 0c
+SPECULAR_BLUE      | f      | 0d
+EMISSION_GRAYSCALE | E      | 0e
+EMISSION_RED       | e      | 0f
+EMISSION_GREEN     | z      | 10
+EMISSION_BLUE      | u      | 11
+TRANSMISSION       | t      | 12
 CUSTOM             | c      | ff
 
 §6.2  Hexadecimal notation
