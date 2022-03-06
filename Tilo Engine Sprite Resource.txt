@@ -324,6 +324,7 @@ The metadata section stores information about the actual data:
 * Width of all frames
 * Height of all frames
 * Frame rate
+* Number of frames
 * Information about the channels used
 
 §2.3  Data
@@ -387,6 +388,18 @@ the data is handled as an animation.
 If the frame rate is exactly zero,
 the data is handled as an image
 and only the first frame is used.
+
+§4.5  Number of frames
+----------------------
+
+The fifth part of the metadata section
+stores the number of frames of the animation.
+It consists of four bytes, which are interpreted as an unsigned 32-bit integer.
+
+If the data is handles as an image,
+[See §4.4]
+the number of frames must be 1.
+The number of frames must not be 0.
 
 §4.5  Channel information
 -------------------------
@@ -625,8 +638,10 @@ TOP                 | 03
 TESR file:
 0x54 0x45 0x53 0x52     Magic number
 0x01 0x00               Version
-W    H                  Dimensions
-FR                      Frame rate
+W    W    W    W        Frame width
+H    H    H    H        Frame height
+FR   FR   FR   FR       Frame rate
+NOF  NOF  NOF  NOF      Number of frames
 #C                      Channel count
 BitD [..]               Bit depth
 ChIn [..]               Channel info
