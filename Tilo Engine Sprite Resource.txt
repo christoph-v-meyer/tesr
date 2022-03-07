@@ -472,8 +472,6 @@ consists of the raw content of a gzip compressed
 TAR archive file
 (MIME Type: application/x-tar).
 
-The gzip container contains a TAR archive file called "D" (without quoted).
-
 This archive file consists of multiple files, which each store one channel of one frame.
 
 §5.1  Naming convention
